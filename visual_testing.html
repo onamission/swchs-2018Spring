@@ -1,0 +1,123 @@
+<html>
+    <head>
+        <title>SWCHS Coding Club</title>
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+        <script src="./PokerData.js" ></script>
+        <script src="./Deck.js" ></script>
+        <script src="./DeckTests.js" ></script>
+        <script src="./Scoring.js" ></script>
+        <script src="./ScoringTests.js" ></script>
+
+        <script>
+            $(function(){
+                var testOutput = [];
+                // testing Deck output
+                var newDeckTests = new DeckTests();
+                testOutput.push( newDeckTests.testNewDeck(1, "count") );
+                testOutput.push( newDeckTests.testNewDeck(2, "count") );
+                testOutput.push( newDeckTests.testNewDeck(1, "list") );
+                testOutput.push( newDeckTests.testShuffleDeck(1, "count") );
+                testOutput.push( newDeckTests.testShuffleDeck(3, "count") );
+                testOutput.push( newDeckTests.testShuffleDeck( 1, "list") );    
+                
+                var newScoreTests = new ScoringTests();
+                testOutput.push( newScoreTests.testScoreMe( hand001, 1 ) );
+                testOutput.push( newScoreTests.testScoreMe( hand002, 1 ) );
+                testOutput.push( newScoreTests.testScoreMe( hand003, 1 ) );
+                testOutput.push( newScoreTests.testScoreMe( hand004, 1 ) );
+                testOutput.push( newScoreTests.testScoreMe( hand005, 1 ) );
+                testOutput.push( newScoreTests.testScoreMe( hand006, 1 ) );
+                testOutput.push( newScoreTests.testScoreMe( hand007, 1 ) );
+                testOutput.push( newScoreTests.testScoreMe( hand008, 1 ) );
+
+                testOutput.forEach( function( testResult, i ){
+                    $('#test_output').append("<div><h4>" + testResult.label + "</h4><ul>" +
+                        testResult.testOutput + "</ul></div>");
+                });
+            });
+            // 4 of a kind (Jacks)
+            var hand001 = [
+                {"value": "J", "suit":"Spades", "order":"004", "card":"<span style='color:black'><b>J &spades;</b></span>"},
+                {"value": "J", "suit":"Clubs", "order":"004", "card":"<span style='color:black'><b>J &clubs;</b></span>"},
+                {"value": "J", "suit":"Diamonds", "order":"004", "card":"<span style='color:red'><b>J &diam;</b></span>"},
+                {"value": "J", "suit":"Hearts", "order":"004", "card":"<span style='color:red'><b>J &hearts;</b></span>"},
+                {"value": "A", "suit":"Spades", "order":"001", "card":"<span style='color:black'><b>A &spades;</b></span>"},
+                {"value": "Q", "suit":"Spades", "order":"003", "card":"<span style='color:black'><b>Q &spades;</b></span>"},
+                {"value": "10", "suit":"Spades", "order":"005", "card":"<span style='color:black'><b>10 &spades;</b></span>"}
+            ];
+            // pair (of Jacks)
+            var hand002 = [
+                {"value": "J", "suit":"Spades", "order":"004", "card":"<span style='color:black'><b>J &spades;</b></span>"},
+                {"value": "J", "suit":"Clubs", "order":"004", "card":"<span style='color:black'><b>J &clubs;</b></span>"},
+                {"value": "3", "suit":"Diamonds", "order":"012", "card":"<span style='color:red'><b>3 &diam;</b></span>"},
+                {"value": "2", "suit":"Hearts", "order":"013", "card":"<span style='color:red'><b>2 &hearts;</b></span>"},
+                {"value": "A", "suit":"Spades", "order":"001", "card":"<span style='color:black'><b>A &spades;</b></span>"},
+                {"value": "Q", "suit":"Spades", "order":"003", "card":"<span style='color:black'><b>Q &spades;</b></span>"},
+                {"value": "10", "suit":"Spades", "order":"005", "card":"<span style='color:black'><b>10 &spades;</b></span>"}
+            ];
+            // three of a kind (Jacks)
+            var hand003 = [
+                {"value": "J", "suit":"Spades", "order":"004", "card":"<span style='color:black'><b>J &spades;</b></span>"},
+                {"value": "J", "suit":"Clubs", "order":"004", "card":"<span style='color:black'><b>J &clubs;</b></span>"},
+                {"value": "J", "suit":"Diamonds", "order":"004", "card":"<span style='color:red'><b>J &diam;</b></span>"},
+                {"value": "2", "suit":"Hearts", "order":"013", "card":"<span style='color:red'><b>2 &hearts;</b></span>"},
+                {"value": "A", "suit":"Spades", "order":"001", "card":"<span style='color:black'><b>A &spades;</b></span>"},
+                {"value": "Q", "suit":"Spades", "order":"003", "card":"<span style='color:black'><b>Q &spades;</b></span>"},
+                {"value": "10", "suit":"Spades", "order":"005", "card":"<span style='color:black'><b>10 &spades;</b></span>"}
+            ];
+            // high card (Ace)
+            var hand004 = [
+                {"value": "J", "suit":"Spades", "order":"004", "card":"<span style='color:black'><b>J &spades;</b></span>"},
+                {"value": "2", "suit":"Clubs", "order":"013", "card":"<span style='color:black'><b>2 &clubs;</b></span>"},
+                {"value": "3", "suit":"Diamonds", "order":"012", "card":"<span style='color:red'><b>3 &diam;</b></span>"},
+                {"value": "4", "suit":"Hearts", "order":"011", "card":"<span style='color:red'><b>4 &hearts;</b></span>"},
+                {"value": "A", "suit":"Spades", "order":"001", "card":"<span style='color:black'><b>A &spades;</b></span>"},
+                {"value": "Q", "suit":"Spades", "order":"003", "card":"<span style='color:black'><b>Q &spades;</b></span>"},
+                {"value": "10", "suit":"Spades", "order":"005", "card":"<span style='color:black'><b>10 &spades;</b></span>"}
+            ];
+            // straight
+            var hand005 = [
+                {"value": "5", "suit":"Spades", "order":"010", "card":"<span style='color:black'><b>5 &spades;</b></span>"},
+                {"value": "2", "suit":"Clubs", "order":"013", "card":"<span style='color:black'><b>2 &clubs;</b></span>"},
+                {"value": "3", "suit":"Diamonds", "order":"012", "card":"<span style='color:red'><b>3 &diam;</b></span>"},
+                {"value": "4", "suit":"Hearts", "order":"011", "card":"<span style='color:red'><b>4 &hearts;</b></span>"},
+                {"value": "A", "suit":"Spades", "order":"001", "card":"<span style='color:black'><b>A &spades;</b></span>"},
+                {"value": "Q", "suit":"Spades", "order":"003", "card":"<span style='color:black'><b>Q &spades;</b></span>"},
+                {"value": "10", "suit":"Spades", "order":"005", "card":"<span style='color:black'><b>10 &spades;</b></span>"}
+            ];
+            // flush
+            var hand006 = [
+                {"value": "J", "suit":"Spades", "order":"004", "card":"<span style='color:black'><b>J &spades;</b></span>"},
+                {"value": "2", "suit":"Spades", "order":"013", "card":"<span style='color:black'><b>2 &spades;</b></span>"},
+                {"value": "3", "suit":"Diamonds", "order":"012", "card":"<span style='color:red'><b>3 &diam;</b></span>"},
+                {"value": "4", "suit":"Hearts", "order":"011", "card":"<span style='color:red'><b>4 &hearts;</b></span>"},
+                {"value": "A", "suit":"Spades", "order":"001", "card":"<span style='color:black'><b>A &spades;</b></span>"},
+                {"value": "Q", "suit":"Spades", "order":"003", "card":"<span style='color:black'><b>Q &spades;</b></span>"},
+                {"value": "10", "suit":"Spades", "order":"005", "card":"<span style='color:black'><b>10 &spades;</b></span>"}
+            ];
+            // straight flush
+            var hand007 = [
+                {"value": "J", "suit":"Spades", "order":"004", "card":"<span style='color:black'><b>J &spades;</b></span>"},
+                {"value": "9", "suit":"Spades", "order":"006", "card":"<span style='color:black'><b>9 &spades;</b></span>"},
+                {"value": "3", "suit":"Diamonds", "order":"012", "card":"<span style='color:red'><b>3 &diam;</b></span>"},
+                {"value": "4", "suit":"Hearts", "order":"011", "card":"<span style='color:red'><b>4 &hearts;</b></span>"},
+                {"value": "K", "suit":"Spades", "order":"002", "card":"<span style='color:black'><b>K &spades;</b></span>"},
+                {"value": "Q", "suit":"Spades", "order":"003", "card":"<span style='color:black'><b>Q &spades;</b></span>"},
+                {"value": "10", "suit":"Spades", "order":"005", "card":"<span style='color:black'><b>10 &spades;</b></span>"}
+            ];
+            // Royal Flush
+            var hand008 = [
+                {"value": "J", "suit":"Spades", "order":"004", "card":"<span style='color:black'><b>J &spades;</b></span>"},
+                {"value": "K", "suit":"Spades", "order":"002", "card":"<span style='color:black'><b>K &spades;</b></span>"},
+                {"value": "3", "suit":"Diamonds", "order":"012", "card":"<span style='color:red'><b>3 &diam;</b></span>"},
+                {"value": "4", "suit":"Hearts", "order":"011", "card":"<span style='color:red'><b>4 &hearts;</b></span>"},
+                {"value": "A", "suit":"Spades", "order":"001", "card":"<span style='color:black'><b>A &spades;</b></span>"},
+                {"value": "Q", "suit":"Spades", "order":"003", "card":"<span style='color:black'><b>Q &spades;</b></span>"},
+                {"value": "10", "suit":"Spades", "order":"005", "card":"<span style='color:black'><b>10 &spades;</b></span>"}
+            ];
+        </script>
+    </head>
+    <body>
+            <div id="test_output"></div>
+    </body>
+</html>

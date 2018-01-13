@@ -63,3 +63,4 @@ span {font-family: 'Indie+Flower', cursive;}
 .pair {border-radius: 5px; background-color :coral}
 .three{border-radius: 5px; background-color:silver}
 .four{border-radius: 5px; background-color: gold}
+input[type="button"], input[type="submit"], input[type="reset"], input[type="file"], select  {border-radius: 5px; padding: 5px; min-width: 100px  }

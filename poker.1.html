@@ -17,19 +17,11 @@
 		<div style="font-size:10px;color:red;">
 			Learn the <a href="https://www.pokernews.com/poker-rules/" target="_blank">rules for poker here.</a>
 		</div>
-			<div style='clear:both;padding:10px;'>
-				<div id='money'></div>
-				<input id="play_button" type="button" onClick="dealACard(1,0)" value="Deal Round 1">
+			<div id='dealDiv' style='clear:both;padding:10px;'>
 				<div id='msg'></div>
-
 			</div>
 			<div style='float:left' id='key'></div>
-			<table id='gameboard'><tr><td>
-			<table id='player-board' style='border-radius: 15px;border: 1px gray solid; float:left; margin:10px'><tr>
-			
-			</table>
-			</td><td><table id='communityboard'><tr>
-				<td id='comm-board'></td></tr></table></table>
+			<div id='gameboard'></div>
 			<div style='clear:both;padding:10px;'>
 			<form action="#"><input type="submit" name="r" value="Reset Game Settings" /></form>
 			</div>
@@ -49,51 +41,64 @@
 				<input type="radio" name="d" value="2"> 2 ;
 				<input type="radio" name="d" value="3"> 3 ;
 				<input type="radio" name="d" value="4"> 4 <br>
-				<button onClick="dealACard(1,0)">New Game</button>
+				<input id="start_button" type="button" onClick="startTheGame()" value="New Game">
 			</form>
 		</div>
 
 		<script>
-			var urlParams = new URLSearchParams(window.location.search);
-			var data = new PokerData();
-			var deck = new Deck();
-			var deckCount = urlParams.get("d"); 
-			var shuffledDeck = deck.shuffleTheDeck(deckCount);
-			var scoring = new Scoring();
-			var allGameData = data.getData().gameData;
-			var gameData = allGameData.find( g => g.name == urlParams.get('g'));
-			var playerCount = urlParams.get("p"); 
-			var card = 0;
-			var cardBack = data.getData().blue_deck_hor;
+			/**
+			 * Set up the game selector
+			 */
+			$(function(){
+				var data = new PokerData();
+				var games = data.getData().gameData;
+				var gameDropdown = $("#g");
+				games.forEach(g =>{
+					gameDropdown.append($("<option></option>")
+						.attr("value", g.name)
+						.text(g.label));
+				});
+			})
 
 			/**
 			 * Start the game 
 			 */
-			function startTheGame( gName, pCount, dCount){
-				if( !gName || !pCount || !dCount ){
-					return null;
+			function startTheGame(){
+				cleanUpGameBoard();
+				var data = new PokerData();
+				var deck = new Deck();
+				var scoring = new Scoring();
+				var allGameData = data.getData().gameData;
+				var cardBack = data.getData().blue_deck_hor;
+				var shuffledDeck = deck.shuffleTheDeck(deckCount);
+				var gameSelector = $("#g")[0];
+				var gameName = gameSelector.options[ gameSelector.selectedIndex ].value;
+				var gameData = allGameData.find( g => g.name == gameName );
+				var deckCount = $('input[name=d]:checked').val();
+				var playerSelector = $("#p")[0];
+				var playerCount =  playerSelector.options[ playerSelector.selectedIndex ].value;
+				if( gameData.communityCards > 0){
+					setUpCommunitySection( scoring, gameData.communityCards);
 				}
-				gameData = allGameData.find( g => g.name == gName );
-				deckCount = dCount;
-				playerCount = pCount;
-			}
+				setUpGameBoard(data, gameData, playerCount, cardBack);
+				var remainingDeck = dealACard(1, 0 ,gameData, shuffledDeck, playerCount);
+			};
 			
 			/**
 			 * Prints out the Community Card section
 			 */
-			$(function(){
+			function setUpCommunitySection(scoring, communityCardCount){
 				$('#key').html( scoring.scoringKey() );
 				var cc = $('.card-container');
-				var communityCardCount = gameData.communityCards;
 				if( communityCardCount ){
 					for( i= 2; i< 7; i++){
-						var communityCards = "<div  class='card-container' id='comm_c"+i+"'>" +
+						var communityCards = "<div  class='card-container' id='comm_c" + i + "'>" +
 							"<div class='card front' >" +
 							"</div><div class='card back' ></div><div";
 						$('#comm-board').append( communityCards);
 					}
 				}
-			})
+			};
 
 			/**
 			 * Toggles the class of an element
@@ -165,9 +170,9 @@
 			};
 
 			/**
-			 * Deals the cards
+			 * Deal the cards
 			 */
-			function dealACard(round, cards ){
+			function dealACard(round, cards, gameData, remainingDeck, playerCount ){
 				// return;
 				var rndDealNum = gameData.dealOrder[round].cardsToDeal;
 				var rndDealTo = gameData.dealOrder[round].dealTo;
@@ -183,7 +188,7 @@
 					}else{
 						// first we must change the cards
 						sel.each( s =>{
-							var crd = shuffledDeck.shift();
+							var crd = remainingDeck.shift();
 							var front = sel[s];
 							front.innerHTML= crd.suit.symbol ;
 							f.attr("data-ordr",crd.card.order);
@@ -199,7 +204,7 @@
 						for( p = 0; p < playerCount; p++){
 							var f = $("#p" + p + "c" + c + ' div.front');
 							var b = $("#p" + p + "c" + c + ' div.back');
-							var crd = shuffledDeck.shift();
+							var crd = remainingDeck.shift();
 							f.html(crd.cardValue);
 							f.attr("data-ordr",crd.card.order);
 							f.attr("data-suit",crd.suit.name);
@@ -218,7 +223,7 @@
 					for( c = cards; c < rndDealNum; c++ ){
 						var f = $("#comm_c" + c + ' div.front');
 						var b = $("#comm_c" + c + ' div.back');
-						var crd = shuffledDeck.shift();
+						var crd = remainingDeck.shift();
 						f.html(crd.cardValue );
 						f.attr("data-ordr",crd.card.order);
 						f.attr("data-suit",crd.suit.name);
@@ -241,15 +246,18 @@
 					pb.attr( "onclick", "reveal(" + playerCount +"," + cards + ");" );
 					pb.val( "Reveal?" );
 				}else{
-					pb.attr( "onclick", "dealACard( "+ round +"," + cards + ");" );
+					pb.attr( "onclick", "dealACard( "+ round +"," + cards + "," + gameData + "," + remainingDeck + "," + playerCount + ");" );
 					pb.val( "Deal Round " + (round ) );
 				}
+				return remainingDeck;
 			};
 
 			/**
 			 * Sets up the gameboard for the players
 			 */
-			$(function(){
+			function setUpGameBoard( data, gameData, playerCount, cardBack ){
+				$('#gameboard').html("<div id='player-board' style='border-radius: 15px;border: 1px gray solid; float:left; margin:10px'>" +
+					"</div><div id='communityboard'><div id='comm-board'></div></div></div>");
 				var players = [ "MY HAND" ];
 				var possiblePlayerList = data.getData().playerName;
 				if ( playerCount > 0 ){
@@ -258,27 +266,19 @@
 						players.push( possiblePlayerList[ playerIndex ] );
 					}
 				}
-				var p = players.length;
-				var games = data.getData().gameData;
-				var gameDropdown = $("#g");
-				games.forEach(g =>{
-					gameDropdown.append($("<option></option>")
-						.attr("value", g.name)
-						.text(g.label));
-				});
-				
+				var p = players.length;				
 				var table = $("#player-board > tbody:last-child");
-				var width = ( 50 / gameData.numCards );
+				// var width = ( 50 / gameData.numCards );
 				$.each( players, function(i, p){
 					var myClass = p == "MY HAND" ? 
 						" myclass' onclick='toggleClass(this.id, \"selected\");'" : 
 						'';
-					var row = $("<tr>");
+					var row = $("<div>");
 					row.addClass("hand");
-					var cellContents ="<th>"+ p +"</th>";
+					var cellContents ="<div>"+ p +"</div>";
 					for(c=0; c < gameData.playerCards; c++){
 						var cardId='p' + i + 'c' + c;
-						cellContents += "<td class='card-container" + myClass +"' id='" +cardId + "'><div class='card front' ></div>\n<div class='card back' >\n</div>\n</td>";
+						cellContents += "<div class='card-container" + myClass +"' id='" +cardId + "'><div class='card front' ></div>\n<div class='card back' >\n</div>\n</div>";
 					}
 					row.append(cellContents);
 					table.append(row);
@@ -286,7 +286,20 @@
 
 				// Set the background image based on base64 data
 				$(".back").css("background-image","url(data:image/png;base64," + cardBack);
-			});
+
+				// create a Deal Button
+				if( !($("#play-button"))){
+					$("#dealDiv").append('<input id="play_button" type="button">');
+				}
+			};
+
+			/**
+			 * Clean up the board
+			 */
+			function cleanUpGameBoard(){
+				// $("#communityboard").find('div').html('');
+				// $("table#player-board").find('div').html( '' );
+			}
 		</script>
 	</body>
 </html>
