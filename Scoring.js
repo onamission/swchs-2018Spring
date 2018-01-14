@@ -10,13 +10,13 @@ class Scoring{
 		var handScore = data.handScoring.HC;
 		var highCard = 2;
 		for(var ca=0; ca< hand.length; ca++ ){
-			// get the card's value 
+			// get the card's value
 			var order =hand[ca] && hand[ca].value ? hand[ca].value : '';
 			var position =hand[ca] && hand[ca].position ? hand[ca].position : '';
-			// get the card's suit 
+			// get the card's suit
 			var suit =hand[ca] && hand[ca].suit ? hand[ca].suit : '';
 			var faceValue = data.cardKeys[ order ];
-			if( highCard < faceValue ){
+			if( parseInt(highCard) < parseInt(faceValue) ){
 				highCard = faceValue;
 			}
 
@@ -48,7 +48,7 @@ class Scoring{
 				if( handScore.score == data.handScoring.P.score ) {
 					handScore.label = data.handScoring.FH.label;
 					handScore.score = data.handScoring.FH.score;
-					handScore.high = data.cardValues[s] +" over " + handScore.high + "'s" ;
+					handScore.high = data.cardValues[s] +" over " + handScore.high ;
 				};
 				if( handScore.score < data.handScoring.K3.score ) {
 					handScore = data.handScoring.K3;
@@ -67,7 +67,7 @@ class Scoring{
 				if( handScore.score == data.handScoring.P.score ) {
 					handScore.label = data.handScoring.P2.label;
 					handScore.score = data.handScoring.P2.score;
-					handScore.high = handScore.high +" & " + data.cardValues[s] + "'s" ;
+					handScore.high = handScore.high +" & " + data.cardValues[s] + "'s";
 				};
 				if( handScore.score < data.handScoring.P.score ) {
 					handScore = data.handScoring.P;
@@ -82,9 +82,9 @@ class Scoring{
 		}
 		// look for straights starting at Ace High and ending at 5
 		for( var cardOrder = 14; cardOrder > 4; cardOrder-- ){
-			if( sets[  cardOrder ] && 
-				sets[ cardOrder - 1  ] && 
-				sets[ cardOrder - 2 ] && 
+			if( sets[  cardOrder ] &&
+				sets[ cardOrder - 1  ] &&
+				sets[ cardOrder - 2 ] &&
 				sets[ cardOrder - 3 ] &&
 				sets[ cardOrder - 4 ] ){
 					// change the first element of each card
@@ -135,7 +135,7 @@ class Scoring{
 	 scoringKey(){
 		 var data = new PokerData();
 		 var styleList = data.getData().styleList;
-			var retVal = 
+			var retVal =
 		"<table style='border-radius: 15px; border:double #333 1px ;margin:10px;padding:5px'>" +
 		"<tr><td style='text-align:center'>"+
 			"<span class='flush straight' >Royal Flush</span></td></tr>" +

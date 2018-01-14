@@ -58,9 +58,34 @@ span {font-family: 'Indie+Flower', cursive;}
 	transform: rotateX(180deg);
 } */
 
-.flush { border:1px solid gray; }
-.straight{ text-shadow:0 0 3px #FF0000, 0 0 5px #0000FF}
-.pair {border-radius: 5px; background-color :coral}
-.three{border-radius: 5px; background-color:silver}
-.four{border-radius: 5px; background-color: gold}
-input[type="button"], input[type="submit"], input[type="reset"], input[type="file"], select  {border-radius: 5px; padding: 5px; min-width: 100px  }
+.flush {
+    border:1px solid gray;
+}
+.straight{
+    text-shadow:0 0 3px #FF0000, 0 0 5px #0000FF}
+.pair {
+    border-radius: 5px;
+    background-color :coral
+}
+.three{
+    border-radius: 5px;
+    background-color:silver
+}
+.four{
+    border-radius: 5px;
+    background-color: gold
+}
+input[type="button"], select  {
+    border-radius: 5px;
+    padding: 8px;
+    min-width: 140px
+}
+.playerName {
+    width: 50%;
+    text-align: left
+}
+.score {
+    display: inline-block;
+    width: 49%;
+    text-align: right
+}
