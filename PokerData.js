@@ -66,6 +66,11 @@ class PokerData{
                 "2" : "2",
             },
             "styleList":{
+                "royal": {
+                    "s": "color",
+                    "d": "white",
+                    "label": "Royal FLush"
+                },
                 "flush": {
                     "s":"border",
                     "d":"1px solid gray",

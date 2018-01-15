@@ -139,7 +139,7 @@ class Scoring{
         "<html><head><link rel='stylesheet' type='text/css' href='./cards.css'></head<body>" +
 		"<table style='border-radius: 15px; border:double #333 1px ;margin:10px;padding:5px'>" +
 		"<tr><td style='text-align:center'>"+
-			"<span class='flush straight' >Royal Flush</span></td></tr>" +
+			"<span class='royal flush straight' >Royal Flush</span></td></tr>" +
 		"<tr><td style='text-align:center'>"+
 			"<span class='flush straight'>Straight Flush</span></td></tr>" +
 		"<tr><td style='text-align:center'>"+

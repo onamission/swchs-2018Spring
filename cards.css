@@ -75,6 +75,10 @@ span {
 	transform: rotateX(180deg);
 } */
 
+.royal {
+    color :white;
+    background-color:silver
+}
 .flush {
     border:1px solid gray;
 }
