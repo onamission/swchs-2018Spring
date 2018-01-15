@@ -11,8 +11,9 @@ class GameBoard{
         }
     }
 
-    scoringKey( scoringKey ){
-        $('#key').html( scoring.scoringKey() );
+    scoringKey( ){
+        var key = window.open( "", "key", "width=225,height=335,menubar=no,resizable=no,scrollbars=no,toolbar=no,location=no");
+        key.document.write( scoring.scoringKey() );
     }
 
 

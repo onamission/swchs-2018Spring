@@ -135,7 +135,8 @@ class Scoring{
 	 scoringKey(){
 		 var data = new PokerData();
 		 var styleList = data.getData().styleList;
-			var retVal =
+            var retVal =
+        "<html><head><link rel='stylesheet' type='text/css' href='./cards.css'></head<body>" +
 		"<table style='border-radius: 15px; border:double #333 1px ;margin:10px;padding:5px'>" +
 		"<tr><td style='text-align:center'>"+
 			"<span class='flush straight' >Royal Flush</span></td></tr>" +
@@ -155,7 +156,7 @@ class Scoring{
 			"<span class='pair'>Two</span> <span class='pair'>Pair</span></td></tr>" +
 		"<tr><td style='text-align:center'>"+
 			"<span class='pair' >" +styleList.pair.label + "</span></td></tr>" +
-		"</table>";
+		"</table></body></html>";
 			return retVal;
 		}
 
