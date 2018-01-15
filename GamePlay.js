@@ -119,6 +119,8 @@ class GamePlay{
        var howToDealThisRound = gameData.dealOrder[round].cardDirection;
        if( gameData.name == "5draw" && round == 1 ){
            $("#msg").html( "Click on up to 3 cards to replace. Once you have your cards selected, click on \"Deal Round 2\" to replace those cards");
+       }else{
+           $('#msg').html('');
        }
 
        // deal the cards for this round
