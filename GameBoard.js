@@ -1,8 +1,8 @@
 class GameBoard{
-    communityCardArea(communityCardCount){
-        var cc = $('.card-container');
+    communityCardArea(communityCardCount, playerCardCount){
         if( communityCardCount ){
-            for( var i= 0; i< communityCardCount; i++){
+            $("#gameboard").append( "<div id=\"comm-board\"><div class='communityName'>Community Cards</div></div>" );
+            for( var i= ( playerCardCount ); i < ( communityCardCount + playerCardCount ); i++){
                 var communityCards = "<div  class='card-container' id='comm_c"+i+"'>" +
                     "<div class='card front' >" +
                     "</div><div class='card back' ></div><div";
@@ -16,9 +16,8 @@ class GameBoard{
     }
 
 
-    playersCardArea( playerList, playerCount, playerCards, cardBack ){
+    playersCardArea( playerList, playerCount, playerCards ){
         var g = $("#gameboard");
-        g.html('');
         var players = [ "MY HAND" ];
         var possiblePlayerList = playerList;
         for( var i = 1; i < playerCount; i++){
@@ -26,23 +25,22 @@ class GameBoard{
             players.push( possiblePlayerList[ playerIndex ] );
         }
         var p = players.length;
-        var playerBoardContents = [];
+        var playerContents = [];
+        var playerBoardContents = "";
         $.each( players, function(i, p){
             var myClass = p == "MY HAND" ?
                 " myclass' onclick='toggleClass(this.id, \"selected\");'" :
                 '';
-            var handContents ="<div class='hand'><div class='playerName'>" + p + "<div id=\"score" + i + "\"></div></div>";
+            var handContents ="<div class='hand'><div class=player><div class='playerName'>" + p + "</div><div class=\"score\" id=\"score" + i + "\"></div></div>";
             for( var c=0; c < playerCards; c++){
                 handContents += "<div class='card-container" + myClass +"' id='p" + i + 'c' + c +
                     "'><div class='card front' ></div>\n<div class='card back' >\n</div>\n</div>";
             }
-            playerBoardContents.push( "<div class='player-board'>" + handContents + "</div>");
+            playerContents.push( handContents);
         });
-        playerBoardContents.forEach( player => {
-            g.append( player );
+        playerContents.forEach( player => {
+            playerBoardContents += player + "</div>" ;
         });
-
-        // Set the background image based on base64 data
-        $(".back").css("background-image","url(data:image/png;base64," + cardBack);
+        g.append(  "<div class='player-board'>" + playerBoardContents + "</div>" );
     };
 }

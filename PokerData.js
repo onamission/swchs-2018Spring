@@ -8,7 +8,7 @@ class PokerData{
                 {"name":"Diamonds","key":"3","color" :"red","symbol":"&diams;"},
                 {"name":"Clubs","key":"4","color" :"black", "symbol":"&clubs;"}
             ],
-            "cards": [ 
+            "cards": [
                 {"order":"001", "value": "A"},
                 {"order":"013", "value" : "2"},
                 {"order":"012", "value" : "3"},
@@ -21,7 +21,7 @@ class PokerData{
                 {"order":"005", "value" : "10"},
                 {"order":"004", "value" : "J"},
                 {"order":"003", "value" : "Q"},
-                {"order":"002", "value" : "K"} 
+                {"order":"002", "value" : "K"}
             ],
             "handScoring": {
                 "HC":{"label": "High Card", "score" : 0},
@@ -97,7 +97,7 @@ class PokerData{
                     "communityCards" : 0,
                     "playerCards" : 5,
                     "dealOrder": {
-                        "1":{"cardsToDeal":5,"dealTo":"all","cardDirection": "down"},
+                        "1":{"cardsToDeal":5,"dealTo":"players","cardDirection": "down"},
                         "2":{"cardsToDeal":3,"dealTo":"replace","cardDirection": "down"},
                     },
                     "replacement": 3,
@@ -111,15 +111,15 @@ class PokerData{
                     "communityCards" : 0,
                     "playerCards" : 5,
                     "dealOrder": {
-                        "1":{"cardsToDeal":3,"dealTo":"all","cardDirection": "down"},
-                        "2":{"cardsToDeal":4,"dealTo":"all","cardDirection": "down"},
-                        "3":{"cardsToDeal":5,"dealTo":"all","cardDirection": "down"}
+                        "1":{"cardsToDeal":3,"dealTo":"players","cardDirection": "down"},
+                        "2":{"cardsToDeal":1,"dealTo":"players","cardDirection": "down"},
+                        "3":{"cardsToDeal":1,"dealTo":"players","cardDirection": "down"}
                     },
                     "replacement": 0,
                     "opp_move": "none",
                     "wild": "none"
                 },
-        
+
                 {
                     "name": "7stud",
                     "label": "7 Card Stud",
@@ -127,18 +127,18 @@ class PokerData{
                     "communityCards" : 0,
                     "playerCards" : 7,
                     "dealOrder": {
-                        "1":{"cardsToDeal":2,"dealTo":"all","cardDirection": "down"},
-                        "2":{"cardsToDeal":3,"dealTo":"all","cardDirection": "up"},
-                        "3":{"cardsToDeal":4,"dealTo":"all","cardDirection": "up"},
-                        "4":{"cardsToDeal":5,"dealTo":"all","cardDirection": "up"},
-                        "5":{"cardsToDeal":6,"dealTo":"all","cardDirection": "up"},
-                        "6":{"cardsToDeal":7,"dealTo":"all","cardDirection": "down"}
+                        "1":{"cardsToDeal":2,"dealTo":"players","cardDirection": "down"},
+                        "2":{"cardsToDeal":1,"dealTo":"players","cardDirection": "up"},
+                        "3":{"cardsToDeal":1,"dealTo":"players","cardDirection": "up"},
+                        "4":{"cardsToDeal":1,"dealTo":"players","cardDirection": "up"},
+                        "5":{"cardsToDeal":1,"dealTo":"players","cardDirection": "up"},
+                        "6":{"cardsToDeal":1,"dealTo":"players","cardDirection": "down"}
                     },
                     "replacement": 0,
                     "opp_move": "none",
                     "wild": "none"
                 },
-        
+
                 {
                     "name": "7base",
                     "label": "Baseball",
@@ -146,18 +146,18 @@ class PokerData{
                     "communityCards" : 0,
                     "playerCards" : 7,
                     "dealOrder": {
-                        "1":{"cardsToDeal":2,"dealTo":"all","cardDirection": "down"},
-                        "2":{"cardsToDeal":3,"dealTo":"all","cardDirection": "up"},
-                        "3":{"cardsToDeal":4,"dealTo":"all","cardDirection": "up"},
-                        "4":{"cardsToDeal":5,"dealTo":"all","cardDirection": "up"},
-                        "5":{"cardsToDeal":6,"dealTo":"all","cardDirection": "up"},
-                        "6":{"cardsToDeal":7,"dealTo":"all","cardDirection": "down"}
+                        "1":{"cardsToDeal":2,"dealTo":"players","cardDirection": "down"},
+                        "2":{"cardsToDeal":1,"dealTo":"players","cardDirection": "up"},
+                        "3":{"cardsToDeal":1,"dealTo":"players","cardDirection": "up"},
+                        "4":{"cardsToDeal":1,"dealTo":"players","cardDirection": "up"},
+                        "5":{"cardsToDeal":1,"dealTo":"players","cardDirection": "up"},
+                        "6":{"cardsToDeal":1,"dealTo":"players","cardDirection": "down"}
                     },
                     "replacement": 0,
                     "opp_move": "none",
                     "wild": ["012","006"]
                 },
-            
+
                 {
                     "name": "2tex",
                     "label": "Texas Hold 'em",
@@ -165,10 +165,10 @@ class PokerData{
                     "communityCards" : 5,
                     "playerCards" : 2,
                     "dealOrder": {
-                        "1":{"cardsToDeal":2,"dealTo":"all","cardDirection": "down"},
-                        "2":{"cardsToDeal":5,"dealTo":"community","cardDirection": "up"},
-                        "3":{"cardsToDeal":6,"dealTo":"community","cardDirection": "up"},
-                        "4":{"cardsToDeal":7,"dealTo":"community","cardDirection": "up"}
+                        "1":{"cardsToDeal":2,"dealTo":"players","cardDirection": "down"},
+                        "2":{"cardsToDeal":3,"dealTo":"community","cardDirection": "up"},
+                        "3":{"cardsToDeal":1,"dealTo":"community","cardDirection": "up"},
+                        "4":{"cardsToDeal":1,"dealTo":"community","cardDirection": "up"}
                     },
                     "replacement": 0,
                     "opp_move": "none",
@@ -181,10 +181,10 @@ class PokerData{
                     "playerCards" : 4,
                     "numCards": 9,
                     "dealOrder": {
-                        "1":{"cardsToDeal":4,"dealTo":"all","cardDirection": "down"},
-                        "2":{"cardsToDeal":7,"dealTo":"community","cardDirection": "up"},
-                        "3":{"cardsToDeal":8,"dealTo":"community","cardDirection": "up"},
-                        "4":{"cardsToDeal":9,"dealTo":"community","cardDirection": "up"}
+                        "1":{"cardsToDeal":4,"dealTo":"players","cardDirection": "down"},
+                        "2":{"cardsToDeal":3,"dealTo":"community","cardDirection": "up"},
+                        "3":{"cardsToDeal":1,"dealTo":"community","cardDirection": "up"},
+                        "4":{"cardsToDeal":1,"dealTo":"community","cardDirection": "up"}
                     },
                     "replacement": 0,
                     "opp_move": "none",

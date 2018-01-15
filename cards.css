@@ -1,9 +1,26 @@
-body{font-family: 'Wellfleet', cursive;}
-span {font-family: 'Indie+Flower', cursive;}
+body{
+    font-family: 'Wellfleet', cursive; padding: 20px
+}
+span {
+    font-family: 'Indie+Flower', cursive;
+}
 
-.order{ visibility:hidden }
+.order{
+    visibility:hidden
+}
 
-#comm-board{ vertical-align:middle;}
+#gameboard{
+    display: table-row
+}
+
+#player-board{
+    display: table-cell;
+}
+
+#comm-board{
+    vertical-align:middle;
+    display: table-cell;
+}
 
 .selected .card.front{
 	background: #aaa;
@@ -81,11 +98,28 @@ input[type="button"], select  {
     min-width: 140px
 }
 .playerName {
+    float: left;
     width: 50%;
-    text-align: left
 }
 .score {
-    display: inline-block;
+    float: right;
     width: 49%;
-    text-align: right
+    text-align: right;
+}
+.player{
+    clear:both;
+    width: 100%;
+    min-width: 300px;
+    min-height: 20px;
+    padding-top: 10px;
+    margin-top: 10px;
+    border-top: 1px solid #aaaaaa;
+}
+.communityName{
+    width: 100%;
+}
+#comm-board{
+    border-left: 2px solid #aaaaaa;
+    margin: 10px;
+    padding: 20px;
 }

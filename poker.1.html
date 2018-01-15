@@ -6,6 +6,7 @@
 		<script src="./Deck.js" ></script>
 		<script src="./Scoring.js"></script>
 		<script src="./GameBoard.js"></script>
+		<script src="./GamePlay.js"></script>
 		<link href="https://fonts.googleapis.com/css?family=Wellfleet" rel="stylesheet">
 		<link href="https://fonts.googleapis.com/css?family=Indie+Flower" rel="stylesheet">
 		<link rel="stylesheet" type="text/css" href="cards.css?v=33">
@@ -41,19 +42,24 @@
 				<input type="radio" name="d" value="2"> 2 ;
 				<input type="radio" name="d" value="3"> 3 ;
 				<input type="radio" name="d" value="4"> 4 <br>
-                <input id="start_button" type="button" onClick="startTheGame()" value="New Game">
+                <input id="start_button" type="button" onClick="gamePlay.startTheGame()" value="New Game">
                 <div id="deck" style="display: none;"></div>
                 <div id="gData" style="display: none;"></div>
 			</form>
 		</div>
 
 		<script>
+            var gamePlay = new GamePlay();
+            var gameBoard = new GameBoard();
+            var pokerData = new PokerData();
+            var scoring = new Scoring();
+            var deck = new Deck();
+
 			/**
 			 * Set up the game selector
 			 */
 			$(function(){
-				var data = new PokerData();
-				var games = data.getData().gameData;
+				var games = pokerData.getData().gameData;
 				var gameDropdown = $("#g");
 				games.forEach(g =>{
 					gameDropdown.append($("<option></option>")
@@ -61,39 +67,6 @@
 						.text(g.label));
 				});
 			})
-
-			/**
-			 * Start the game
-			 */
-			function startTheGame( ){
-				var data = new PokerData();
-				var deck = new Deck();
-				var scoring = new Scoring();
-				var gameBoard = new GameBoard();
-				var allGameData = data.getData().gameData;
-				var cardBack = data.getData().blue_deck_hor;
-				var shuffledDeck = deck.shuffleTheDeck(deckCount);
-				var gameSelector = $("#g")[0];
-				var gameName = gameSelector.options[ gameSelector.selectedIndex ].value;
-				var gameData = allGameData.find( g => g.name == gameName );
-				var deckCount = $("input[name=d]:checked").val();
-				var playerSelector = $("#p")[0];
-				var playerCount =  playerSelector.options[ playerSelector.selectedIndex ].value;
-				var round = 1;
-                var cardCount = 0;
-
-                // put the data on the page for easy access
-                $("#gData").text( JSON.stringify( gameData ) );
-                $("#deck").text( JSON.stringify( shuffledDeck ) );
-
-				if( gameData.communityCards ){
-					gameBoard.communityCardArea( gameData.communityCards);
-				}
-				gameBoard.playersCardArea(data.getData().playerName, playerCount, gameData.playerCards, cardBack);
-				// set up next round button
-                $("#dealDiv").append( "<input id=\"play_button\" type=\"button\" onClick=\"dealACard( " +
-                    round + ", " + cardCount + " )\" value=\"Deal Round " + round + "\">");
-			};
 
 			/**
 			 * Toggles the class of an element
@@ -114,156 +87,9 @@
 			 */
 			function replay(){
 				history.go(0);
-			};
+            };
 
-			/**
-			 * Reveals all of the hands
-			 */
-			function reveal( players, playerCards, communityCards){
-                var scoring = new Scoring();
-				var hand = [];
-				for( c = 0; c < playerCards; c++ ){
-					for( p = 0; p < players; p++){
-						if( !hand[p] ){
-							hand[p] = [];
-						}
-						var b = $("#p" + p + "c" + c + " div.back");
-						b.css({transform: "rotateY(180deg)"});
-						var f = $("#p" + p + "c" + c + " div.front");
-						if( f.attr("data-ordr") ){
-							hand[p].push( {
-								"order": f.attr("data-ordr"),
-								"value": f.attr("data-value"),
-								"suit": f.attr("data-suit"),
-								"position": "p" + p + "c" + c,
-								"card":f.html()
-							});
-							f.css({transform: "rotateY(0deg)"});
-						}
-					}
-                }
-                if( communityCards ){
-                    for( p = 0; p < players; p++){
-                        for( com = 2; com < communityCards; com++){
-                            if( !hand[p] ){
-                                hand[p] = [];
-                            }
-                            var f = $("#comm_c" + com + " div.front");
-                            var b = $("#comm_c" + com + " div.back'");
-                            b.css({transform:"rotateY(180deg)"});
-                            if( f.attr("data-ordr") ){
-                                hand[p].push( {
-                                    "order": f.attr("data-ordr"),
-                                    "value": f.attr("data-value"),
-                                    "suit": f.attr("data-suit"),
-                                    "position": "comm_c" + com,
-                                    "card":f.html()
-                                });
-                                f.css({transform: "rotateY(0deg)"});
-                            }
-                        }
-                    }
-                }
-				for( p = 0; p < players; p++){
-					$("#score" + p).html( scoring.scoreMe( hand[p], p ) );
-				};
-                var pb = $("#play_button");
-                var playerNumber = $(".hand").length;
-				pb.attr( "onclick", "dealACard( 1, 0," + playerNumber + ");" );
-                pb.val( "Start New Game" );
-                // reshuffle the deck
-                var newDeck = new Deck();
-                var shuffledDeck = newDeck.shuffleTheDeck( ( $("input[name=d]:checked" ).val() || 1 ) );
-                $("#deck").text( JSON.stringify( shuffledDeck ) );
-			};
 
-			/**
-			 * Deal the cards
-			 */
-			function dealACard( round, cards ){
-                // return;
-                var playerNumber = $(".hand").length;
-                var gameData = JSON.parse( $("#gData").text() );
-                var remainingDeck = JSON.parse( $("#deck").text() );
-				var rndDealNum = gameData.dealOrder[round].cardsToDeal;
-				var rndDealTo = gameData.dealOrder[round].dealTo;
-                var rndDealHow = gameData.dealOrder[round].cardDirection;
-                var communityCardCount = 0;
-                var playerCardCount = 0;
-				if( gameData.name == "5draw" && round == 1 ){
-					$("#msg").html( "Click on up to 3 cards to replace. Once you have your cards selected, click on \"Deal Round 2\" to replace those cards");
-				}
-				if( rndDealTo == "replace" ){
-					var sel = $(".selected > div.card.front");
-					// var sel = $(".selected .front");
-					if( sel.length > 3 ){
-						alert( "You can only select three cards to replace." );
-						round--; //reset the round
-					}else{
-						// first we must change the cards
-						sel.each( s =>{
-							var crd = remainingDeck.shift();
-							var f = sel[s];
-                            f.innerHTML = crd.cardValue ;
-							f.setAttribute("data-ordr",crd.card.order);
-							f.setAttribute("data-suit",crd.suit.name);
-							f.setAttribute("data-value",crd.card.value);
-							f.style.color=crd.suit.color;
-							toggleClass( f.parentElement.id, "selected" );
-						});
-					}
-				}
-				if( rndDealTo == "all"){
-					for( c = cards; c < rndDealNum; c++ ){
-						for( p = 0; p < playerNumber; p++){
-							var f = $("#p" + p + "c" + c + " div.front");
-							var b = $("#p" + p + "c" + c + " div.back");
-							var crd = remainingDeck.shift();
-							f.html(crd.cardValue);
-							f.attr("data-ordr",crd.card.order);
-							f.attr("data-suit",crd.suit.name);
-							f.attr("data-value",crd.card.value);
-							f.css( "color", crd.suit.color);
-							if( rndDealHow == "up" || p==0 ){
-								b.css({transform: "rotateY(180deg)"});
-							}else{
-								f.css({transform: "rotateY(180deg)"});
-							}
-						}
-						playerCardCount++;
-					}
-				}
-				if( rndDealTo == "community"){
-					for( c = cards; c < rndDealNum; c++ ){
-						var f = $("#comm_c" + c + " div.front");
-						var b = $("#comm_c" + c + " div.back");
-						var crd = remainingDeck.shift();
-						f.html(crd.cardValue );
-						f.attr("data-ordr",crd.card.order);
-						f.attr("data-suit",crd.suit.name);
-						f.attr("data-value",crd.card.value);
-						if( rndDealHow == "up" || p==0 ){
-							b.css({transform: "rotateY(180deg)"});
-						}else{
-							f.css({transform: "rotateY(180deg)"});
-						}
-                        communityCardCount++;
-					}
-				}
-				round++;
-				var pb = $("#play_button");
-				if( round > Object.keys( gameData.dealOrder ).length  ){
-                    var cardContainers = $(".card-container");
-                    var hands = $(".hand") || 1;
-					pb.attr( "onclick", "reveal(" + (hands.length) +"," + ( cardContainers.length / hands.length ) +"," + communityCardCount + ");" );
-					pb.val( "Reveal?" );
-				}else{
-					pb.attr( "onclick", "dealACard( "+ round +"," + cards + " );" );
-					pb.val( "Deal Round " + ( round ) );
-                }
-                // and replace the "remainingDeck" on the page
-                $("#deck").text( JSON.stringify(remainingDeck  ) );
-			};
 		</script>
 	</body>
 </html>
