@@ -115,7 +115,7 @@ class Scoring{
 				});
 				// if the score is also a straight, set it to a straight flush or royal flush
 				if( handScore.score == data.handScoring.S.score ) {
-					handScore = highCard == 14 ? data.handScoring.RF : data.handScoring.SF;
+					handScore = handScore.high == 14 ? data.handScoring.RF : data.handScoring.SF;
 					handScore.high = data.cardValues[highCard] + " high";
 				};
 				// if the score is not as high as a flush, set it to a flush
