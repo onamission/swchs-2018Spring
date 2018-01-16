@@ -43,7 +43,7 @@ class Scoring{
 		"<tr><td style='text-align:center'>"+
 			"<span class='four' >" +styleList.four.label + "</span></td></tr>" +
 		"<tr><td style='text-align:center'>"+
-			"<span class='pair' >Full</span> <span class='three'>House</span></td></tr>" +
+            "<span class='fullhouse' >" +styleList.fullhouse.label + "</span></td></tr>" +
 		"<tr><td style='text-align:center'>"+
 			"<span class='flush' >" +styleList.flush.label + "</span></td></tr>" +
 		"<tr><td style='text-align:center'>"+

@@ -21,9 +21,18 @@ class ScoringHelper{
 		return [ sets, flushes ];
     }
 
-    changeEleByIdStyle( eleId, style){
-       var ele = $("#" + eleId + " .front > span");
-       ele.addClass( style );
+    addClassByElementId( eleId, style ){
+        var ele = $("#" + eleId + " .front > span");
+        ele.addClass( style );
+    }
+
+    replaceClassByElementId( eleId, style ){
+        var ele = $("#" + eleId + " .front > span");
+        if( ele.className ){
+            ele.className.replace(new RegExp( '.*', style ) );
+        }else{
+            ele.addClass( style );
+        }
    }
 
     converToThreeCharStirng( numbr ){
@@ -33,6 +42,7 @@ class ScoringHelper{
 
 class HighCard extends ScoringHelper{
     getScore(  sets, flushes, handScore  ){
+        var self = this;
         var data = pokerData.getData();
         var highCard = 0;
         sets.forEach(key => {
@@ -49,12 +59,13 @@ class HighCard extends ScoringHelper{
 
 class MatchingCards extends ScoringHelper{
     getScore( sets, flushes, handScore ){
+        var self = this;
         var data = pokerData.getData();
         for( var s in sets ){
 			// four of a kind highlight in GOLD
 			if( sets[s].length > 3 ){
 				for( var fourKind in sets[s] ){
-					this.changeEleByIdStyle( sets[s][fourKind].position, 'four') ;
+					self.addClassByElementId( sets[s][fourKind].position, 'four') ;
 				}
 				if( handScore.score < data.handScoring.K4.score) {
 					handScore.score = data.handScoring.K4.score;
@@ -64,10 +75,17 @@ class MatchingCards extends ScoringHelper{
 				// three of a kind highlight in SILVER
 			}else if( sets[s].length > 2 ){
 				for( var threeKind in sets[s] ){
-					this.changeEleByIdStyle( sets[s][threeKind].position, 'three') ;
+					self.addClassByElementId( sets[s][threeKind].position, 'three') ;
 				}
 				if( handScore.score == data.handScoring.P.score ) {
 					handScore.label = data.handScoring.FH.label;
+                    sets[ s ].forEach( card => {
+                        self.addClassByElementId( card.position, 'fullhouse') ;
+                    });
+                    var pairs = handScore.high.replace( "'s", "" );
+                    sets[ pairs ].forEach( card => {
+                        self.addClassByElementId( card.position, 'fullhouse') ;
+                    });
 					handScore.score = data.handScoring.FH.score;
 					handScore.high = data.cardValues[s] +"'s over " + handScore.high ;
 				};
@@ -80,10 +98,17 @@ class MatchingCards extends ScoringHelper{
 			// pairs we will highlight in BRONZE, but since there is no color bronze, we will use coral
 			}else if( sets[s].length > 1 ){
 				for( var pair in sets[s] ){
-					this.changeEleByIdStyle( sets[s][pair].position, 'pair') ;
+					self.addClassByElementId( sets[s][pair].position, 'pair') ;
 				}
 				if( handScore.score == data.handScoring.K3.score ) {
-					handScore.label = data.handScoring.FH.label;
+                    handScore.label = data.handScoring.FH.label;
+                    sets[ s ].forEach( card => {
+                        self.addClassByElementId( card.position, 'fullhouse') ;
+                    });
+                    var triplets = handScore.high.replace( "'s", "" );
+                    sets[ triplets ].forEach( card => {
+                        self.addClassByElementId( card.position, 'fullhouse') ;
+                    });
 					handScore.score = data.handScoring.FH.score;
 					handScore.high =  handScore.high +" over " + data.cardValues[s] + "'s" ;
 				};
@@ -105,6 +130,7 @@ class MatchingCards extends ScoringHelper{
 
 class Flush extends ScoringHelper{
     getScore( sets, flushes, handScore ){
+        var self = this;
         var data = pokerData.getData();
         Object.keys(flushes).forEach( function( flush ){
 			// flushes we will border in gray
@@ -112,7 +138,6 @@ class Flush extends ScoringHelper{
 				var highCard = 1;
 				flushes[flush].forEach( c =>{
                     if( handScore.score < data.handScoring.S.score ) {
-                        self.changeEleByIdStyle( c.position, 'flush') ;
                         var cardFace = data.cardKeys[ c.order ];
                         if( parseInt( highCard ) < parseInt( cardFace ) ){
                             highCard = cardFace;
@@ -121,6 +146,9 @@ class Flush extends ScoringHelper{
 				});
                 // if the score is also a straight, set it to a straight flush or royal flush
                 if( handScore.score == data.handScoring.S.score ) {
+                    flushes[flush].forEach( card =>{
+                        self.changeEleByIdStyle( card.position, 'flush') ;
+                    });
                     handScore.score = cardOrder == 14 ? data.handScoring.RF.score : data.handScoring.SF.score;
                     handScore.label = cardOrder == 14 ? data.handScoring.RF.label : data.handScoring.SF.label;
                     handScore.high = data.cardValues[cardOrder] + " high";
@@ -128,6 +156,9 @@ class Flush extends ScoringHelper{
 
 				// if the score is not as high as a flush, set it to a flush
 				if( handScore.score < data.handScoring.F.score ) {
+                    flushes[flush].forEach( card =>{
+                        self.replaceClassByElementId( card.position, 'flush') ;
+                    });
 					handScore.score = data.handScoring.F.score;
 					handScore.label = data.handScoring.F.label;
 					handScore.high = data.cardValues[highCard] + " high";
@@ -140,6 +171,7 @@ class Flush extends ScoringHelper{
 
 class Straight extends ScoringHelper{
     getScore( sets, flushes, handScore ){
+        var self = this;
         var data = pokerData.getData();
         /* if we have an ace in our hand, add it as a 14th elmement as well */
 		if( sets[ 14 ] ){
@@ -155,12 +187,12 @@ class Straight extends ScoringHelper{
                 handScore.score < data.handScoring.S.score
             ){
                 // change the first element of each card
-                self.changeEleByIdStyle(sets[ cardOrder ][ 0 ].position, 'straight') ;
-                self.changeEleByIdStyle( sets[ cardOrder - 1  ][ 0 ].position, 'straight') ;
-                self.changeEleByIdStyle( sets[ cardOrder - 2  ][ 0 ].position, 'straight') ;
-                self.changeEleByIdStyle( sets[ cardOrder - 3  ][ 0 ].position, 'straight') ;
-                self.changeEleByIdStyle( sets[ cardOrder - 4  ][ 0 ].position, 'straight') ;
-                var highCard = this.converToThreeCharStirng( cardOrder );
+                self.replaceClassByElementId(sets[ cardOrder ][ 0 ].position, 'straight') ;
+                self.replaceClassByElementId( sets[ cardOrder - 1  ][ 0 ].position, 'straight') ;
+                self.replaceClassByElementId( sets[ cardOrder - 2  ][ 0 ].position, 'straight') ;
+                self.replaceClassByElementId( sets[ cardOrder - 3  ][ 0 ].position, 'straight') ;
+                self.replaceClassByElementId( sets[ cardOrder - 4  ][ 0 ].position, 'straight') ;
+                var highCard = self.converToThreeCharStirng( cardOrder );
 
                 // if the score is not as high as a straight, set it to a straight
                 if( handScore.score < data.handScoring.S.score ) {

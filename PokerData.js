@@ -76,6 +76,11 @@ class PokerData{
                     "d":"1px solid gray",
                     "label":"Flush"
                 },
+                "fullhouse": {
+                    "s":"color",
+                    "d":"white",
+                    "label":"<span class=\"pair\" >Full</span> <span class=\"three\">House</span>"
+                },
                 "straight" :{
                     "s": "text-shadow",
                     "d":"0 0 3px #FF0000, 0 0 5px #0000FF",

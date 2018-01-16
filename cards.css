@@ -79,6 +79,9 @@ span {
     color :white;
     background-color:silver
 }
+.fullhouse {
+    color :white !important;
+}
 .flush {
     border:1px solid gray;
 }
