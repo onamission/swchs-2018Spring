@@ -13,7 +13,8 @@ class Deck{
 						fullDeck.push({
 							"card": card,
 							"suit": suit,
-							"cardValue": "<span style='color:" + suit.color + "'><b>" + card.value + " " + suit.symbol + "</b></span>" 
+                            "cardValue": "<span style='color:" + suit.color + "' title=\"" + card.name + " of " + suit.name + "\"><b>" +
+                                card.value + " " + suit.symbol + "</b></span>"
 						});
 					}
 				});

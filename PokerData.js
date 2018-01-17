@@ -9,19 +9,19 @@ class PokerData{
                 {"name":"Clubs","key":"4","color" :"black", "symbol":"&clubs;"}
             ],
             "cards": [
-                {"order":"001", "value": "A"},
-                {"order":"013", "value" : "2"},
-                {"order":"012", "value" : "3"},
-                {"order":"011", "value" : "4"},
-                {"order":"010", "value" : "5"},
-                {"order":"009", "value" : "6"},
-                {"order":"008", "value" : "7"},
-                {"order":"007", "value" : "8"},
-                {"order":"006", "value" : "9"},
-                {"order":"005", "value" : "10"},
-                {"order":"004", "value" : "J"},
-                {"order":"003", "value" : "Q"},
-                {"order":"002", "value" : "K"}
+                {"order":"001", "value": "A", "name": "Ace"},
+                {"order":"013", "value" : "2", "name": "Two"},
+                {"order":"012", "value" : "3", "name": "Three"},
+                {"order":"011", "value" : "4", "name": "Four"},
+                {"order":"010", "value" : "5", "name": "Five"},
+                {"order":"009", "value" : "6", "name": "Six"},
+                {"order":"008", "value" : "7", "name": "Seven"},
+                {"order":"007", "value" : "8", "name": "Eight"},
+                {"order":"006", "value" : "9", "name": "Nine"},
+                {"order":"005", "value" : "10", "name": "Ten"},
+                {"order":"004", "value" : "J", "name": "Jack"},
+                {"order":"003", "value" : "Q", "name": "Queen"},
+                {"order":"002", "value" : "K", "name": "King"}
             ],
             "handScoring": {
                 "HC":{"label": "High Card", "name" : "HighCard", "score" : 0, "classes": ""},
