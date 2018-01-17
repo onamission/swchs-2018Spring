@@ -1,9 +1,26 @@
-body{font-family: 'Wellfleet', cursive;}
-span {font-family: 'Indie+Flower', cursive;}
+body{
+    font-family: 'Wellfleet', cursive; padding: 20px
+}
+span {
+    font-family: 'Indie+Flower', cursive;
+}
 
-.order{ visibility:hidden }
+.order{
+    visibility:hidden
+}
 
-#comm-board{ vertical-align:middle;}
+#gameboard{
+    display: table-row
+}
+
+#player-board{
+    display: table-cell;
+}
+
+#comm-board{
+    vertical-align:middle;
+    display: table-cell;
+}
 
 .selected .card.front{
 	background: #aaa;
@@ -58,8 +75,53 @@ span {font-family: 'Indie+Flower', cursive;}
 	transform: rotateX(180deg);
 } */
 
-.flush { border:1px solid gray; }
-.straight{ text-shadow:0 0 3px #FF0000, 0 0 5px #0000FF}
-.pair {border-radius: 5px; background-color :coral}
-.three{border-radius: 5px; background-color:silver}
-.four{border-radius: 5px; background-color: gold}
+.royal {
+    color :white;
+    background-color:silver
+}
+.flush {
+    border:1px solid gray;
+}
+.straight{
+    text-shadow:0 0 3px #FF0000, 0 0 5px #0000FF}
+.pair {
+    border-radius: 5px;
+    background-color :coral
+}
+.three{
+    border-radius: 5px;
+    background-color:silver
+}
+.four{
+    border-radius: 5px;
+    background-color: gold
+}
+input[type="button"], select  {
+    border-radius: 5px;
+    padding: 8px;
+    min-width: 140px
+}
+.playerName {
+    float: left;
+}
+.score {
+    float: right;
+    text-align: right;
+}
+.player{
+    clear:both;
+    width: 100%;
+    min-width: 200px;
+    min-height: 20px;
+    padding-top: 10px;
+    margin-top: 10px;
+    border-top: 1px solid #aaaaaa;
+}
+.communityName{
+    width: 100%;
+}
+#comm-board{
+    border-left: 2px solid #aaaaaa;
+    margin: 10px;
+    padding: 20px;
+}
