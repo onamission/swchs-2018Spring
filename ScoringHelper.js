@@ -8,7 +8,7 @@ class ScoringHelper{
 			var position =hand[ca] && hand[ca].position ? hand[ca].position : '';
 			// get the card's suit
 			var suit =hand[ca] && hand[ca].suit ? hand[ca].suit : '';
-			var faceValue = pokerData.getData().cardKeys[ order ];
+            var faceValue = pokerData.getData().cardKeys[ order ];
 
 			// based on order we can look for sets and straights
 			if( !sets[faceValue] ){ sets[faceValue] = [];}
@@ -28,7 +28,7 @@ class ScoringHelper{
 
     replaceClassByElementId( eleId, style ){
         var ele = $("#" + eleId + " .front > span");
-        if( ele.className ){
+        if( ele.className && eleId.indexOf( "p" ) === 0 ){
             ele.className.replace(new RegExp( '.*', style ) );
         }else{
             ele.addClass( style );
@@ -61,69 +61,62 @@ class MatchingCards extends ScoringHelper{
     getScore( sets, flushes, handScore ){
         var self = this;
         var data = pokerData.getData();
-        for( var s in sets ){
-			// four of a kind highlight in GOLD
-			if( sets[s].length > 3 ){
-				for( var fourKind in sets[s] ){
-					self.addClassByElementId( sets[s][fourKind].position, 'four') ;
-				}
-				if( handScore.score < data.handScoring.K4.score) {
-					handScore.score = data.handScoring.K4.score;
-					handScore.high = data.cardValues[s] + "'s";
-					handScore.label = data.handScoring.K4.label;
-				};
-				// three of a kind highlight in SILVER
-			}else if( sets[s].length > 2 ){
-				for( var threeKind in sets[s] ){
-					self.addClassByElementId( sets[s][threeKind].position, 'three') ;
-				}
-				if( handScore.score == data.handScoring.P.score ) {
-					handScore.label = data.handScoring.FH.label;
-                    sets[ s ].forEach( card => {
-                        self.addClassByElementId( card.position, 'fullhouse') ;
-                    });
-                    var pairs = handScore.high.replace( "'s", "" );
-                    sets[ pairs ].forEach( card => {
-                        self.addClassByElementId( card.position, 'fullhouse') ;
-                    });
-					handScore.score = data.handScoring.FH.score;
-					handScore.high = data.cardValues[s] +"'s over " + handScore.high ;
-				};
-				if( handScore.score < data.handScoring.K3.score ) {
-					handScore.score = data.handScoring.K3.score;
-                    handScore.high = data.cardValues[s] + "'s";
-					handScore.label = data.handScoring.K3.label;
+        var handSets = {};
+        var setsToProcess;
+        sets.forEach( s =>{
+            if( !handSets[ data.matches[ s.length ] ] ){
+                handSets[ data.matches[ s.length ] ] = [];
+            }
+            handSets[ data.matches[ s.length ] ].push( s );
+        });
 
-				};
-			// pairs we will highlight in BRONZE, but since there is no color bronze, we will use coral
-			}else if( sets[s].length > 1 ){
-				for( var pair in sets[s] ){
-					self.addClassByElementId( sets[s][pair].position, 'pair') ;
-				}
-				if( handScore.score == data.handScoring.K3.score ) {
-                    handScore.label = data.handScoring.FH.label;
-                    sets[ s ].forEach( card => {
-                        self.addClassByElementId( card.position, 'fullhouse') ;
-                    });
-                    var triplets = handScore.high.replace( "'s", "" );
-                    sets[ triplets ].forEach( card => {
-                        self.addClassByElementId( card.position, 'fullhouse') ;
-                    });
-					handScore.score = data.handScoring.FH.score;
-					handScore.high =  handScore.high +" over " + data.cardValues[s] + "'s" ;
-				};
-				if( handScore.score == data.handScoring.P.score ) {
-					handScore.label = data.handScoring.P2.label;
-					handScore.score = data.handScoring.P2.score;
-					handScore.high = handScore.high +" & " + data.cardValues[s] + "'s";
-				};
-				if( handScore.score < data.handScoring.P.score ) {
-					handScore.score = data.handScoring.P.score;
-					handScore.label = data.handScoring.P.label;
-					handScore.high = data.cardValues[s] + "'s";
-				};
-			}
+        // auto create new object
+        Object.keys( handSets ).forEach( key =>{
+            if( key !== "HighCard" && handSets[ key ].length === 1 ){
+                var scoringKey = Object.keys( data.handScoring ).find( scoreKey =>  data.handScoring[scoreKey].name === key )
+                handScore = self.processMatch( handSets[ key ], Object.assign( { "key": key }, data.handScoring[ scoringKey ] ), handScore );
+            }
+        })
+
+        // create "special" matches
+        if ( handSets.Pair && handSets.Pair.length > 1 ){
+            // just in case there are three pairs, take the top two
+            var sortedSets = handSets.Pair.sort( function(a, b ) {
+                return ( data.cardKeys[ b[ 0 ].order ] - data.cardKeys[ a[ 0 ].order ] );
+            } )
+            setsToProcess = [ sortedSets[ 0 ], sortedSets[ 1 ] ];
+            handScore = self.processMatch( setsToProcess, Object.assign( { "key": "P2" }, data.handScoring[ "P2" ] ), handScore  );
         }
+        if ( handSets.Pair && handSets.ThreeOfAKind ){
+            // just in case there are two pairs and a three of a kind, take the top pair
+            var sortedSets = handSets.Pair.sort( function(a, b ){
+                return ( data.cardKeys[ b[ 0 ].order ] - data.cardKeys[ a[ 0 ].order ] );
+            } )
+            setsToProcess = [ sortedSets[ 0 ], handSets.ThreeOfAKind[ 0 ] ];
+            handScore = self.processMatch( setsToProcess, Object.assign( { "key": "FH" }, data.handScoring[ "FH" ]), handScore  );
+        }
+        return handScore;
+    }
+
+    processMatch( setsInHand, options, handScore ){
+        var self = this;
+        var data = pokerData.getData();
+        var cardValues = [], cardValue;
+        setsInHand.forEach( set => {
+            set.forEach( card =>{
+                self.addClassByElementId( card.position, options.classes );
+                cardValue = data.cardValues[ data.cardKeys[ card.order ] ] + "'s";
+                if ( cardValues.indexOf( cardValue ) < 0){
+                    cardValues.push( cardValue );
+                }
+            });
+        });
+        cardValues = cardValues.toString().replace( ",", " and ");
+        if( handScore.score < options.score) {
+            handScore.score = options.score;
+            handScore.high = cardValues;
+            handScore.label = options.label;
+        };
         return handScore;
     }
 }

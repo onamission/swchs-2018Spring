@@ -60,49 +60,56 @@ span {
 	display: flex;
 	align-items: center;
 	justify-content: center;
-	font-size: 28px;
+	font-size: 24px;
 }
 .back {
 	display: flex;
 	align-items: center;
 	justify-content: center;
-	font-size: 28px;
+	font-size: 24px;
 }
-/* .card-container:hover .card {
-	transform: rotateX(180deg);
-}
-.back {
-	transform: rotateX(180deg);
-} */
-
 .royal {
-    color :white;
-    background-color:silver
-}
-.fullhouse {
     color :white !important;
+    background-color:silver;
+    padding: 5px;
+    border-radius: 5px;
+}
+.fullhouse, .five {
+    color :white !important;
+    padding: 5px;
+    border-radius: 5px;
+}
+.five{
+    text-shadow:0 0 3px #aaaaaa, 0 0 5px #bbbbbb;
 }
 .flush {
     border:1px solid gray;
+    padding: 5px;
+    border-radius: 5px;
 }
 .straight{
-    text-shadow:0 0 3px #FF0000, 0 0 5px #0000FF}
+    text-shadow:0 0 3px #FF0000, 0 0 5px #0000FF;
+    padding: 5px
+}
 .pair {
     border-radius: 5px;
-    background-color :coral
+    background-color :coral;
+    padding: 5px;
 }
 .three{
     border-radius: 5px;
-    background-color:silver
+    background-color:silver;
+    padding: 5px
 }
 .four{
     border-radius: 5px;
-    background-color: gold
+    background-color: goldenrod;
+    padding: 5px
 }
 input[type="button"], select  {
     border-radius: 5px;
     padding: 8px;
-    min-width: 140px
+    min-width: 140px;
 }
 .playerName {
     float: left;
@@ -127,4 +134,17 @@ input[type="button"], select  {
     border-left: 2px solid #aaaaaa;
     margin: 10px;
     padding: 20px;
+}
+
+.scoringKeyTable
+{
+    border-radius: 15px;
+    border:double #333 1px ;
+    margin:10px;padding:5px;
+    padding: 10px;
+}
+table.scoringKeyTable td
+{
+   height: 40px;
+   text-align: center
 }

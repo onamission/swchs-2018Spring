@@ -22,7 +22,7 @@ class DealToPlayers extends DealHelper{
         for( var p = 0; p < numberOfPlayers; p++){
             // find the first unplayed card in the hand
             var nextCardToPlay = this.findFirstUnplayedCard( p, cardCount.cards_already_dealt, cardsToDealThisRound );
-            for( var c = nextCardToPlay; c < cardsToDealThisRound; c++ ){
+            for( var c = nextCardToPlay; c < ( cardsToDealThisRound + nextCardToPlay ); c++ ){
                 var f = $("#p" + p + "c" + c + " div.front");
                 var b = $("#p" + p + "c" + c + " div.back");
                 var crd = remainingDeck.shift();

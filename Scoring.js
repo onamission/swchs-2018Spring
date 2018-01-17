@@ -32,31 +32,20 @@ class Scoring{
 
 	 scoringKey(){
 		 var data = new PokerData();
-		 var styleList = data.getData().styleList;
-            var retVal =
-        "<html><head><link rel='stylesheet' type='text/css' href='./cards.css'></head<body>" +
-		"<table style='border-radius: 15px; border:double #333 1px ;margin:10px;padding:5px'>" +
-		"<tr><td style='text-align:center'>"+
-			"<span class='royal flush straight' >Royal Flush</span></td></tr>" +
-		"<tr><td style='text-align:center'>"+
-			"<span class='flush straight'>Straight Flush</span></td></tr>" +
-		"<tr><td style='text-align:center'>"+
-			"<span class='four' >" +styleList.four.label + "</span></td></tr>" +
-		"<tr><td style='text-align:center'>"+
-            "<span class='fullhouse' >" +styleList.fullhouse.label + "</span></td></tr>" +
-		"<tr><td style='text-align:center'>"+
-			"<span class='flush' >" +styleList.flush.label + "</span></td></tr>" +
-		"<tr><td style='text-align:center'>"+
-			"<span class='straight' >" +styleList.straight.label + "</span></td></tr>" +
-		"<tr><td style='text-align:center'>"+
-			"<span class='three' >" +styleList.three.label + "</span></td></tr>" +
-		"<tr><td style='text-align:center'>"+
-			"<span class='pair'>Two</span> <span class='pair'>Pair</span></td></tr>" +
-		"<tr><td style='text-align:center'>"+
-			"<span class='pair' >" +styleList.pair.label + "</span></td></tr>" +
-		"</table></body></html>";
-			return retVal;
-		}
+         var handScoring = data.getData().handScoring;
+         var reverseOrder = Object.keys( handScoring );
+         var item;
+
+        var retVal =
+            "<html><head><link rel='stylesheet' type='text/css' href='./cards.css'></head<body>" +
+            "<table class=\"scoringKeyTable\">" ;
+        while( reverseOrder.length ){
+            item = reverseOrder.pop();
+            retVal += "<tr><td>"+
+			"<span class='" + handScoring[ item ].classes  + "' >" + handScoring[ item ].label + "</span></td></tr>"
+        }
+		return retVal;
+	}
 
    scoringFactory( type ){
        var typesList = {

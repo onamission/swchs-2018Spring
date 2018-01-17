@@ -24,17 +24,19 @@ class PokerData{
                 {"order":"002", "value" : "K"}
             ],
             "handScoring": {
-                "HC":{"label": "High Card", "score" : 0},
-                "P":{"label": "Pair", "score" : 1},
-                "P2":{"label": "2 Pair", "score" : 3},
-                "K3":{"label": "3 of a Kind", "score" : 4},
-                "S":{"label": "Straight", "score" : 5},
-                "F":{"label": "Flush", "score" : 6},
-                "FH":{"label": "Full House", "score" : 7},
-                "K4":{"label": "4 of a Kind", "score" : 9},
-                "SF":{"label": "Straight Flush", "score" : 11},
-                "RF":{"label": "Royal Flush", "score" : 13},
+                "HC":{"label": "High Card", "name" : "HighCard", "score" : 0, "classes": ""},
+                "P":{"label": "Pair", "name" : "Pair", "score" : 1, "classes" : "pair"},
+                "P2":{"label": "2 Pair", "name" : "TwoPair", "score" : 3, "classes" : "pair"},
+                "K3":{"label": "3 of a Kind", "name" : "ThreeOfAKind", "score" : 4, "classes" : "three"},
+                "S":{"label": "Straight", "name" : "Straight", "score" : 5, "classes" : "straight"},
+                "F":{"label": "Flush", "name" : "Flush", "score" : 6, "classes" : "flush"},
+                "FH":{"label": "<span class=\"pair\">Full</span> <span class=\"three\">House</span>", "name" : "FullHouse", "score" : 7, "classes" : "fullhouse"},
+                "K4":{"label": "4 of a Kind", "name" : "FourOfAKind", "score" : 9, "classes" : "four"},
+                "SF":{"label": "Straight Flush", "name" : "StraightFlush", "score" : 11, "classes" : "straight flush"},
+                "RF":{"label": "Royal Flush", "name" : "RoyalFlush", "score" : 13, "classes" : "straight flush royal"},
+                "K5":{"label": "5 of a Kind", "name" : "FiveOfAKind", "score" : 9, "classes" : "four five"}
             },
+            "matches": [ "Nothing", "HighCard", "Pair", "ThreeOfAKind", "FourOfAKind", "FiveOfAKind" ],
             "cardValues" : {
                 "14" : "A",
                 "13" : "K",
@@ -64,40 +66,6 @@ class PokerData{
                 "4" : "4",
                 "3" : "3",
                 "2" : "2",
-            },
-            "styleList":{
-                "royal": {
-                    "s": "color",
-                    "d": "white",
-                    "label": "Royal FLush"
-                },
-                "flush": {
-                    "s":"border",
-                    "d":"1px solid gray",
-                    "label":"Flush"
-                },
-                "fullhouse": {
-                    "s":"color",
-                    "d":"white",
-                    "label":"<span class=\"pair\" >Full</span> <span class=\"three\">House</span>"
-                },
-                "straight" :{
-                    "s": "text-shadow",
-                    "d":"0 0 3px #FF0000, 0 0 5px #0000FF",
-                    "label":"Straight"
-                },
-                "pair" : {
-                    "s": "background-color",
-                    "d":"coral",
-                    "label":"Pair"},
-                "three" :{
-                    "s":  "background-color",
-                    "d":"silver",
-                    "label":"3 of a Kind"},
-                "four" : {
-                    "s": "background-color",
-                    "d":"gold",
-                    "label":"4 of a Kind"}
             },
             "gameData":[
                 {
