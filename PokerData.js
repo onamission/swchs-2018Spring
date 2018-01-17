@@ -30,7 +30,7 @@ class PokerData{
                 "K3":{"label": "<span class=\"three\">3 of a Kind</span>", "name" : "ThreeOfAKind", "score" : 4, "classes" : "three"},
                 "S":{"label": "<span class=\"straight\">Straight</span>", "name" : "Straight", "score" : 5, "classes" : "straight"},
                 "F":{"label": "<span class=\"flush\">Flush</span>", "name" : "Flush", "score" : 6, "classes" : "flush"},
-                "FH":{"label": "<span class=\"pair\">Full</span> <span class=\"three\">House</span>", "name" : "FullHouse", "score" : 7, "classes" : "fullhouse"},
+                "FH":{"label": "<span class=\"pair fullhouse\">Full</span> <span class=\"three fullhouse\">House</span>", "name" : "FullHouse", "score" : 7, "classes" : "fullhouse"},
                 "K4":{"label": "<span class=\"four\">4 of a Kind</span>", "name" : "FourOfAKind", "score" : 9, "classes" : "four"},
                 "SF":{"label": "<span class=\"straight flush\">Straight Flush</span>", "name" : "StraightFlush", "score" : 11, "classes" : "straight flush"},
                 "RF":{"label": "<span class=\"straight flush royal\">Royal Flush</span>", "name" : "RoyalFlush", "score" : 13, "classes" : "straight flush royal"},

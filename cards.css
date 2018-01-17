@@ -77,15 +77,13 @@ span {
     color :white !important;
     background-color:silver;
     padding: 5px;
-    border-radius: 5px;
 }
 .fullhouse, .five, two_pair {
     color :white !important;
     padding: 5px;
-    border-radius: 5px;
 }
 .five{
-    text-shadow:0 0 3px #aaaaaa, 0 0 5px #bbbbbb;
+    text-shadow:0 0 5px black;
 }
 .flush {
     border:1px solid gray;

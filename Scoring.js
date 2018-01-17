@@ -42,7 +42,7 @@ class Scoring{
         while( reverseOrder.length ){
             item = reverseOrder.pop();
             retVal += "<tr><td>"+
-			"<span class='" + handScoring[ item ].classes  + "' >" + handScoring[ item ].label + "</span></td></tr>"
+			"<span>" + handScoring[ item ].label + "</span></td></tr>"
         }
 		return retVal;
 	}
