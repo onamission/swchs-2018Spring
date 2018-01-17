@@ -22,6 +22,11 @@ span {
     display: table-cell;
 }
 
+.hand{
+    min-width: 300px;
+    padding: 10px;
+}
+
 .selected .card.front{
 	background: #aaa;
 	opacity: 0.5;
@@ -74,7 +79,7 @@ span {
     padding: 5px;
     border-radius: 5px;
 }
-.fullhouse, .five {
+.fullhouse, .five, two_pair {
     color :white !important;
     padding: 5px;
     border-radius: 5px;
@@ -122,7 +127,7 @@ input[type="button"], select  {
     clear:both;
     width: 100%;
     min-width: 200px;
-    min-height: 20px;
+    min-height: 45px;
     padding-top: 10px;
     margin-top: 10px;
     border-top: 1px solid #aaaaaa;

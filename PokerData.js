@@ -25,16 +25,16 @@ class PokerData{
             ],
             "handScoring": {
                 "HC":{"label": "High Card", "name" : "HighCard", "score" : 0, "classes": ""},
-                "P":{"label": "Pair", "name" : "Pair", "score" : 1, "classes" : "pair"},
-                "P2":{"label": "2 Pair", "name" : "TwoPair", "score" : 3, "classes" : "pair"},
-                "K3":{"label": "3 of a Kind", "name" : "ThreeOfAKind", "score" : 4, "classes" : "three"},
-                "S":{"label": "Straight", "name" : "Straight", "score" : 5, "classes" : "straight"},
-                "F":{"label": "Flush", "name" : "Flush", "score" : 6, "classes" : "flush"},
+                "P":{"label": "<span class=\"pair\">Pair</span>", "name" : "Pair", "score" : 1, "classes" : "pair"},
+                "P2":{"label": "<span class=\"pair two_pair\">2 Pair</span>", "name" : "TwoPair", "score" : 3, "classes" : "pair two_pair"},
+                "K3":{"label": "<span class=\"three\">3 of a Kind</span>", "name" : "ThreeOfAKind", "score" : 4, "classes" : "three"},
+                "S":{"label": "<span class=\"straight\">Straight</span>", "name" : "Straight", "score" : 5, "classes" : "straight"},
+                "F":{"label": "<span class=\"flush\">Flush</span>", "name" : "Flush", "score" : 6, "classes" : "flush"},
                 "FH":{"label": "<span class=\"pair\">Full</span> <span class=\"three\">House</span>", "name" : "FullHouse", "score" : 7, "classes" : "fullhouse"},
-                "K4":{"label": "4 of a Kind", "name" : "FourOfAKind", "score" : 9, "classes" : "four"},
-                "SF":{"label": "Straight Flush", "name" : "StraightFlush", "score" : 11, "classes" : "straight flush"},
-                "RF":{"label": "Royal Flush", "name" : "RoyalFlush", "score" : 13, "classes" : "straight flush royal"},
-                "K5":{"label": "5 of a Kind", "name" : "FiveOfAKind", "score" : 9, "classes" : "four five"}
+                "K4":{"label": "<span class=\"four\">4 of a Kind</span>", "name" : "FourOfAKind", "score" : 9, "classes" : "four"},
+                "SF":{"label": "<span class=\"straight flush\">Straight Flush</span>", "name" : "StraightFlush", "score" : 11, "classes" : "straight flush"},
+                "RF":{"label": "<span class=\"straight flush royal\">Royal Flush</span>", "name" : "RoyalFlush", "score" : 13, "classes" : "straight flush royal"},
+                "K5":{"label": "<span class=\"four five\">5 of a Kind</span>", "name" : "FiveOfAKind", "score" : 9, "classes" : "four five"}
             },
             "matches": [ "Nothing", "HighCard", "Pair", "ThreeOfAKind", "FourOfAKind", "FiveOfAKind" ],
             "cardValues" : {
