@@ -1,4 +1,4 @@
-# swchs-2018
+# swchs-2018 [jQuery Style]
 Poker game for SWCHS Coding Club
 
 This is some code that we are using in the SouthWest Christian High School Coding Club spring semester 2018 to learn about Web Development and the software development process.
